@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:routes/di/app_injector.dart';
 import 'package:routes/routes_feed/ui/feed_widgets.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  inject();
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
