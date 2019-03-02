@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 abstract class MainFeedState extends Equatable {}
 
 class FeedInitial extends MainFeedState {
-
   @override
   String toString() {
     return 'FeedInitial';
@@ -11,7 +10,6 @@ class FeedInitial extends MainFeedState {
 }
 
 class FeedLoading extends MainFeedState {
-
   @override
   String toString() {
     return 'FeedLoading';
@@ -19,9 +17,12 @@ class FeedLoading extends MainFeedState {
 }
 
 class FeedLoaded extends MainFeedState {
+  final String data;
+
+  FeedLoaded(this.data);
 
   @override
   String toString() {
-    return 'FeedLoaded';
+    return data;
   }
 }
