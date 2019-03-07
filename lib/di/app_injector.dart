@@ -5,8 +5,8 @@ import 'package:routes/routes_feed/data/feed_repo.dart';
 part 'app_injector.g.dart';
 
 abstract class Injector {
-  @Register.factory(FeedRepo, name: 'feedRepo')
-  @Register.factory(MainFeedBloc, resolvers: {FeedRepo: 'feedRepo'})
+  @Register.singleton(FeedRepo, name: 'mockFeedRepo', from: MockFeedRepo)
+  @Register.factory(MainFeedBloc, resolvers: {FeedRepo: 'mockFeedRepo'})
   void configure();
 }
 
