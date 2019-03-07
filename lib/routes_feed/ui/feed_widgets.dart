@@ -12,12 +12,16 @@ class MainFeedWidget extends StatefulWidget {
 
 class _MainFeedState extends State<MainFeedWidget> {
   final kiwi.Container _container = kiwi.Container();
+  final ScrollController _controller = ScrollController();
+  final _scrollThreshold = 200.0;
   MainFeedBloc _mainFeedBloc;
 
   @override
   void initState() {
     _mainFeedBloc = _container<MainFeedBloc>();
-    _mainFeedBloc.dispatch(OpenFeed());
+    _controller.addListener(onScroll);
+    _mainFeedBloc.dispatch(Fetch());
+    super.initState();
   }
 
   @override
@@ -28,7 +32,6 @@ class _MainFeedState extends State<MainFeedWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: BlocBuilder(
         bloc: _mainFeedBloc,
         builder: (BuildContext context, MainFeedState state) {
@@ -43,11 +46,60 @@ class _MainFeedState extends State<MainFeedWidget> {
             );
           }
           if (state is FeedLoaded) {
-            return Center(
-              child: Text(state.toString()),
-            );
+            return ListWithIndicator(state);
           }
         },
+      ),
+    );
+  }
+
+  Widget ListWithIndicator(FeedLoaded state) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        return index >= state.data.length
+            ? _loadingIndicator()
+            : RouteCard(state.data[index]);
+      },
+      itemCount: state.hasMoreData ? state.data.length + 1 : state.data.length,
+      controller: _controller,
+    );
+  }
+
+  Widget _loadingIndicator() {
+    return Container(
+      alignment: Alignment.center,
+      child: Center(
+        child: SizedBox(
+          width: 33,
+          height: 33,
+          child: CircularProgressIndicator(
+            strokeWidth: 1.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void onScroll() {
+    final maxScroll = _controller.position.maxScrollExtent;
+    final currentScroll = _controller.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      _mainFeedBloc.dispatch(Fetch());
+    }
+  }
+}
+
+class RouteCard extends StatelessWidget {
+  final String data;
+
+  RouteCard(this.data);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(data),
       ),
     );
   }
