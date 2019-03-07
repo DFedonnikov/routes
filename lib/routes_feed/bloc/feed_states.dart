@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:routes/routes_feed/data/model/feed_models.dart';
 
 abstract class MainFeedState extends Equatable {
   MainFeedState([List props = const []]) : super(props);
@@ -26,7 +27,7 @@ class PageLoading extends MainFeedState {
 }
 
 class FeedLoaded extends MainFeedState {
-  final List<String> data;
+  final List<RouteCardModel> data;
   final bool hasMoreData;
   final int currentPage;
 
@@ -34,7 +35,7 @@ class FeedLoaded extends MainFeedState {
       : super([data, hasMoreData, currentPage]);
 
   FeedLoaded copyWith({
-    List<String> data,
+    List<RouteCardModel> data,
     bool hasMoreData,
     int currentPage,
   }) {

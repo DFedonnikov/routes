@@ -4,6 +4,7 @@ import 'package:routes/routes_feed/bloc/feed_blocs.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:routes/routes_feed/bloc/feed_events.dart';
 import 'package:routes/routes_feed/bloc/feed_states.dart';
+import 'package:routes/routes_feed/data/model/feed_models.dart';
 
 class MainFeedWidget extends StatefulWidget {
   @override
@@ -32,6 +33,7 @@ class _MainFeedState extends State<MainFeedWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 225, 225, 225),
       body: BlocBuilder(
         bloc: _mainFeedBloc,
         builder: (BuildContext context, MainFeedState state) {
@@ -46,19 +48,19 @@ class _MainFeedState extends State<MainFeedWidget> {
             );
           }
           if (state is FeedLoaded) {
-            return ListWithIndicator(state);
+            return _listWithIndicator(state);
           }
         },
       ),
     );
   }
 
-  Widget ListWithIndicator(FeedLoaded state) {
+  Widget _listWithIndicator(FeedLoaded state) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) {
         return index >= state.data.length
             ? _loadingIndicator()
-            : RouteCard(state.data[index]);
+            : RouteCard(state.data[index], index == 0);
       },
       itemCount: state.hasMoreData ? state.data.length + 1 : state.data.length,
       controller: _controller,
@@ -90,16 +92,72 @@ class _MainFeedState extends State<MainFeedWidget> {
 }
 
 class RouteCard extends StatelessWidget {
-  final String data;
+  final RouteCardModel _data;
+  final bool _isFirst;
 
-  RouteCard(this.data);
+  final Color _textColor = Color.fromARGB(200, 125, 125, 125);
+
+  RouteCard(this._data, this._isFirst);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(data),
+    return Padding(
+        padding: EdgeInsets.fromLTRB(28.0, _isFirst ? 18.0 : 2.0, 28.0, 2.0),
+        child: Card(
+          child: Column(
+            children: <Widget>[
+              _routePreview(),
+              _routeLocation(),
+              _routeName(),
+              _routeDescription(),
+            ],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+          ),
+          elevation: 8.0,
+        ));
+  }
+
+  Widget _routePreview() {
+    return Image.asset(
+      _data.imgUrl,
+      fit: BoxFit.fill,
+    );
+//    return DecoratedBox(
+//      decoration: BoxDecoration(
+//        image: DecorationImage(
+//          image: AssetImage('assets/route_mock_preview.jpg'),
+//        ),
+//      ),
+//    );
+  }
+
+  Widget _routeLocation() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Text(
+        _data.location,
+        style: TextStyle(color: _textColor),
+      ),
+    );
+  }
+
+  Widget _routeName() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, top: 10.0, right: 8.0),
+      child: Text(
+        _data.name,
+        style: TextStyle(fontSize: 24.0, color: _textColor),
+      ),
+    );
+  }
+
+  Widget _routeDescription() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 8.0),
+      child: Text(
+        _data.descrpition,
+        style: TextStyle(fontSize: 14.0, color: _textColor),
       ),
     );
   }

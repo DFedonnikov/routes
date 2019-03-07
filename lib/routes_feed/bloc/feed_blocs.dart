@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:routes/routes_feed/bloc/feed_events.dart';
 import 'package:routes/routes_feed/bloc/feed_states.dart';
 import 'package:routes/routes_feed/data/feed_repo.dart';
+import 'package:routes/routes_feed/data/model/feed_models.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainFeedBloc extends Bloc<MainFeedEvent, MainFeedState> {
@@ -53,7 +54,7 @@ class MainFeedBloc extends Bloc<MainFeedEvent, MainFeedState> {
         }
       });
 
-  Stream<List<String>> _getFeed(int page) => _feedRepo.getFeed(page);
+  Stream<List<RouteCardModel>> _getFeed(int page) => _feedRepo.getFeed(page);
 
   bool _hasFetchedAllData(MainFeedState currentState) =>
       currentState is FeedLoaded && !currentState.hasMoreData;
