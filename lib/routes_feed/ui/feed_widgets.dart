@@ -28,6 +28,7 @@ class _MainFeedState extends State<MainFeedWidget> {
   @override
   void dispose() {
     _mainFeedBloc.dispose();
+    super.dispose();
   }
 
   @override
@@ -37,11 +38,6 @@ class _MainFeedState extends State<MainFeedWidget> {
       body: BlocBuilder(
         bloc: _mainFeedBloc,
         builder: (BuildContext context, MainFeedState state) {
-          if (state is FeedInitial) {
-            return Center(
-              child: Text(state.toString()),
-            );
-          }
           if (state is FeedLoading) {
             return Center(
               child: CircularProgressIndicator(),
@@ -123,13 +119,6 @@ class RouteCard extends StatelessWidget {
       _data.imgUrl,
       fit: BoxFit.fill,
     );
-//    return DecoratedBox(
-//      decoration: BoxDecoration(
-//        image: DecorationImage(
-//          image: AssetImage('assets/route_mock_preview.jpg'),
-//        ),
-//      ),
-//    );
   }
 
   Widget _routeLocation() {

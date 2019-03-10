@@ -13,7 +13,7 @@ class MainFeedBloc extends Bloc<MainFeedEvent, MainFeedState> {
   MainFeedBloc(this._feedRepo);
 
   @override
-  MainFeedState get initialState => FeedInitial();
+  MainFeedState get initialState => FeedLoading();
 
   @override
   Stream<MainFeedEvent> transform(Stream<MainFeedEvent> events) {
@@ -25,7 +25,7 @@ class MainFeedBloc extends Bloc<MainFeedEvent, MainFeedState> {
   Stream<MainFeedState> mapEventToState(
       MainFeedState currentState, MainFeedEvent event) {
     if (event is Fetch && !_hasFetchedAllData(currentState)) {
-      if (currentState is FeedInitial) {
+      if (currentState is FeedLoading) {
         return loadFirstPage();
       } else if (currentState is FeedLoaded) {
         return loadNextPage(currentState);
@@ -34,9 +34,7 @@ class MainFeedBloc extends Bloc<MainFeedEvent, MainFeedState> {
     return Observable.just(currentState);
   }
 
-  Stream<MainFeedState> loadFirstPage() => Observable.just(FeedLoading())
-          .concatMap((value) => _getFeed(1))
-          .map((data) {
+  Stream<MainFeedState> loadFirstPage() => _getFeed(1).map((data) {
         return data.isEmpty
             ? FeedLoaded(data: data, hasMoreData: false, currentPage: 1)
             : FeedLoaded(data: data, hasMoreData: true, currentPage: 1);

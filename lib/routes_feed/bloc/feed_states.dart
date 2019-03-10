@@ -5,24 +5,10 @@ abstract class MainFeedState extends Equatable {
   MainFeedState([List props = const []]) : super(props);
 }
 
-class FeedInitial extends MainFeedState {
-  @override
-  String toString() {
-    return 'FeedInitial';
-  }
-}
-
 class FeedLoading extends MainFeedState {
   @override
   String toString() {
     return 'FeedLoading';
-  }
-}
-
-class PageLoading extends MainFeedState {
-  @override
-  String toString() {
-    return 'PageLoading';
   }
 }
 
