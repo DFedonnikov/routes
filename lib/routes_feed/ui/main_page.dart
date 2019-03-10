@@ -13,7 +13,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MainFeedWidget(),
+      body: _getScreen(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
@@ -39,5 +39,14 @@ class HomePageState extends State<HomePage> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  Widget _getScreen() {
+    switch (_currentIndex) {
+      case 0:
+        return MainFeedWidget();
+      default:
+        return MainFeedWidget();
+    }
   }
 }

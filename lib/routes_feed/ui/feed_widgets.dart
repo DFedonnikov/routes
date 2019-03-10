@@ -5,6 +5,7 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:routes/routes_feed/bloc/feed_events.dart';
 import 'package:routes/routes_feed/bloc/feed_states.dart';
 import 'package:routes/routes_feed/data/model/feed_models.dart';
+import 'package:routes/routes_feed/ui/detailed_widgets.dart';
 
 class MainFeedWidget extends StatefulWidget {
   @override
@@ -99,18 +100,21 @@ class RouteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.fromLTRB(28.0, _isFirst ? 18.0 : 2.0, 28.0, 2.0),
-        child: Card(
-          child: Column(
-            children: <Widget>[
-              _routePreview(),
-              _routeLocation(),
-              _routeName(),
-              _routeDescription(),
-            ],
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
+        child: InkWell(
+          child: Card(
+            child: Column(
+              children: <Widget>[
+                _routePreview(),
+                _routeLocation(),
+                _routeName(),
+                _routeDescription(),
+              ],
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+            ),
+            elevation: 8.0,
           ),
-          elevation: 8.0,
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RouteDetailed(_data))),
         ));
   }
 
