@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
-abstract class MainFeedEvent extends Equatable {}
+abstract class FeedEvent extends Equatable {}
 
-class Fetch extends MainFeedEvent {
+class Fetch extends FeedEvent {
   @override
   String toString() {
     return 'Fetch';
   }
 }
 
-class LoadingStarted extends MainFeedEvent {
+class LoadingStarted extends FeedEvent {
   @override
   String toString() {
     return 'StartLoading';

@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:routes/routes_feed/data/model/feed_models.dart';
 
-abstract class MainFeedState extends Equatable {
-  MainFeedState([List props = const []]) : super(props);
+abstract class FeedBlocState extends Equatable {
+  FeedBlocState([List props = const []]) : super(props);
 }
 
-class FeedLoading extends MainFeedState {
+class FeedLoading extends FeedBlocState {
   @override
   String toString() {
     return 'FeedLoading';
   }
 }
 
-class FeedLoaded extends MainFeedState {
+class FeedLoaded extends FeedBlocState {
   final List<RouteCardModel> data;
   final bool hasMoreData;
   final int currentPage;

@@ -6,61 +6,123 @@ import 'package:routes/routes_feed/bloc/feed_events.dart';
 import 'package:routes/routes_feed/bloc/feed_states.dart';
 import 'package:routes/routes_feed/data/model/feed_models.dart';
 import 'package:routes/routes_feed/ui/detailed_widgets.dart';
+import 'package:routes/Constants.dart';
 
 class MainFeedWidget extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MainFeedState();
+  State<StatefulWidget> createState() => MainFeedState();
 }
 
-class _MainFeedState extends State<MainFeedWidget> {
-  final kiwi.Container _container = kiwi.Container();
-  final ScrollController _controller = ScrollController();
+class MainFeedState extends State<MainFeedWidget> {
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: EmptyAppBar(),
+      primary: true,
+      backgroundColor: Color.fromARGB(255, 225, 225, 225),
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: <Widget>[_buildSearch(), _buildFeedList(_scrollController, MAIN_FEED_BLOCK)],
+      ),
+    );
+  }
+
+  Widget _buildSearch() {
+    return SliverAppBar(
+        floating: true,
+        pinned: false,
+        snap: true,
+        expandedHeight: 80,
+        backgroundColor: Color.fromARGB(255, 225, 225, 225),
+        flexibleSpace: FlexibleSpaceBar(
+            background: Padding(
+          padding: EdgeInsets.fromLTRB(28.0, 8.0, 28.0, 8.0),
+          child: TextField(
+            decoration: InputDecoration(
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Color.fromARGB(194, 12, 48, 222),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: "Route by city, e.g. Amsterdam",
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 0.0,
+                    style: BorderStyle.none,
+                  ),
+                  borderRadius: BorderRadius.circular(24.0),
+                )),
+          ),
+        )));
+  }
+
+  Widget _buildFeedList(ScrollController scrollController, String blockName) {
+    final kiwi.Container _container = kiwi.Container();
+    return FeedWidget(_container<FeedBloc>(blockName), _scrollController);
+  }
+}
+
+class FeedWidget extends StatefulWidget {
+  final FeedBloc _feedBloc;
+  final ScrollController _scrollController;
+
+  FeedWidget(this._feedBloc, this._scrollController);
+
+  @override
+  State<StatefulWidget> createState() =>
+      FeedState(_feedBloc, _scrollController);
+}
+
+class FeedState extends State<FeedWidget> {
+  final ScrollController _controller;
   final _scrollThreshold = 200.0;
-  MainFeedBloc _mainFeedBloc;
+  final FeedBloc _feedBloc;
+
+  FeedState(this._feedBloc, this._controller);
 
   @override
   void initState() {
-    _mainFeedBloc = _container<MainFeedBloc>();
-    _controller.addListener(onScroll);
-    _mainFeedBloc.dispatch(Fetch());
     super.initState();
+    _controller.addListener(onScroll);
+    _feedBloc.dispatch(Fetch());
   }
 
   @override
   void dispose() {
-    _mainFeedBloc.dispose();
+    _feedBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 225, 225, 225),
-      body: BlocBuilder(
-        bloc: _mainFeedBloc,
-        builder: (BuildContext context, MainFeedState state) {
-          if (state is FeedLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is FeedLoaded) {
-            return _listWithIndicator(state);
-          }
-        },
-      ),
+    return BlocBuilder(
+      bloc: _feedBloc,
+      builder: (BuildContext context, FeedBlocState state) {
+        if (state is FeedLoading) {
+          return SliverToBoxAdapter(
+              child: Center(
+            child: CircularProgressIndicator(),
+          ));
+        }
+        if (state is FeedLoaded) {
+          return _listWithIndicator(state);
+        }
+      },
     );
   }
 
   Widget _listWithIndicator(FeedLoaded state) {
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return index >= state.data.length
             ? _loadingIndicator()
             : RouteCard(state.data[index], index == 0);
       },
-      itemCount: state.hasMoreData ? state.data.length + 1 : state.data.length,
-      controller: _controller,
+          childCount:
+              state.hasMoreData ? state.data.length + 1 : state.data.length),
     );
   }
 
@@ -83,7 +145,7 @@ class _MainFeedState extends State<MainFeedWidget> {
     final maxScroll = _controller.position.maxScrollExtent;
     final currentScroll = _controller.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      _mainFeedBloc.dispatch(Fetch());
+      _feedBloc.dispatch(Fetch());
     }
   }
 }
@@ -114,7 +176,8 @@ class RouteCard extends StatelessWidget {
             ),
             elevation: 8.0,
           ),
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RouteDetailed(_data))),
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RouteDetailed(_data))),
         ));
   }
 
@@ -154,4 +217,14 @@ class RouteCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Size get preferredSize => Size(0.0, 0.0);
 }
