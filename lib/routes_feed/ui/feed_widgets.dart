@@ -8,6 +8,8 @@ import 'package:routes/routes_feed/data/model/feed_models.dart';
 import 'package:routes/routes_feed/ui/detailed_widgets.dart';
 import 'package:routes/Constants.dart';
 
+import '../../common_widgets.dart';
+
 class MainFeedWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => MainFeedState();
@@ -24,7 +26,10 @@ class MainFeedState extends State<MainFeedWidget> {
       backgroundColor: Color.fromARGB(255, 225, 225, 225),
       body: CustomScrollView(
         controller: _scrollController,
-        slivers: <Widget>[_buildSearch(), _buildFeedList(_scrollController, MAIN_FEED_BLOCK)],
+        slivers: <Widget>[
+          _buildSearch(),
+          _buildFeedList(_scrollController, MAIN_FEED_BLOCK),
+        ],
       ),
     );
   }
@@ -217,14 +222,4 @@ class RouteCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-  @override
-  Size get preferredSize => Size(0.0, 0.0);
 }

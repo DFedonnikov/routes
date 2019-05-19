@@ -27,7 +27,8 @@ abstract class FeedBloc extends Bloc<FeedEvent, FeedBlocState> {
   }
 
   @override
-  Stream<FeedBlocState> mapEventToState(FeedBlocState currentState, FeedEvent event) {
+  Stream<FeedBlocState> mapEventToState(
+      FeedBlocState currentState, FeedEvent event) {
     if (event is Fetch && !_hasFetchedAllData(currentState)) {
       if (currentState is FeedLoading) {
         return loadFirstPage();

@@ -1,0 +1,40 @@
+
+<svg width="187px" height="43px" viewBox="0 0 187 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-1" x="3" y="3" width="185" height="40" rx="2"></rect>
+        <filter x="-1.1%" y="-5.0%" width="102.2%" height="112.5%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.24 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter2"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter2" result="shadowBlurOuter2"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter2" result="shadowMatrixOuter2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="shadowMatrixOuter2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <polygon id="path-3" points="0.0010546875 0.000703125 18 0.000703125 18 17.8906641 0.0010546875 17.8906641"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Facebook-login" transform="translate(-2.000000, -2.000000)">
+            <g id="button-bg" opacity="0.05">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <text id="Continue-with-Facebook" font-family="Helvetica" font-size="13" font-weight="normal" letter-spacing="0.203125" fill="#000000" fill-opacity="0.54">
+                <tspan x="38.0302734" y="28">Continue with Facebook</tspan>
+            </text>
+            <g id="f_logo_RGB-Blue_1024" transform="translate(14.000000, 14.000000)">
+                <g id="Group-3">
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M18,9 C18,4.02943359 13.9705664,0 9,0 C4.02943359,0 0,4.02943359 0,9 C0,13.4921602 3.29116992,17.2154883 7.59375,17.8906641 L7.59375,11.6015625 L5.30859375,11.6015625 L5.30859375,9 L7.59375,9 L7.59375,7.0171875 C7.59375,4.7615625 8.93738672,3.515625 10.9931836,3.515625 C11.9778574,3.515625 13.0078125,3.69140625 13.0078125,3.69140625 L13.0078125,5.90625 L11.8729336,5.90625 C10.7549121,5.90625 10.40625,6.60000586 10.40625,7.31174414 L10.40625,9 L12.9023438,9 L12.5033203,11.6015625 L10.40625,11.6015625 L10.40625,17.8906641 C14.7088301,17.2154883 18,13.4921602 18,9" id="Fill-1" fill="#1877F2" mask="url(#mask-4)"></path>
+                </g>
+                <path d="M12.5033203,11.6015625 L12.9023438,9 L10.40625,9 L10.40625,7.31174414 C10.40625,6.60000586 10.7549121,5.90625 11.8729336,5.90625 L13.0078125,5.90625 L13.0078125,3.69140625 C13.0078125,3.69140625 11.9778574,3.515625 10.9931836,3.515625 C8.93738672,3.515625 7.59375,4.7615625 7.59375,7.0171875 L7.59375,9 L5.30859375,9 L5.30859375,11.6015625 L7.59375,11.6015625 L7.59375,17.8906641 C8.05195898,17.9625586 8.52159375,18 9,18 C9.47840625,18 9.94804102,17.9625586 10.40625,17.8906641 L10.40625,11.6015625 L12.5033203,11.6015625" id="Fill-4" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

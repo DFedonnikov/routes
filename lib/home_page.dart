@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:routes/routes_feed/ui/feed_widgets.dart';
 
+import 'profile/ui/profile_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HomePageState();
@@ -45,6 +47,8 @@ class HomePageState extends State<HomePage> {
     switch (_currentIndex) {
       case 0:
         return MainFeedWidget();
+      case 2:
+        return ProfilePage();
       default:
         return MainFeedWidget();
     }

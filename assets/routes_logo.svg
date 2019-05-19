@@ -1,0 +1,50 @@
+
+<svg width="235px" height="288px" viewBox="0 0 235 288" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-1" x="100" y="112" width="33" height="159"></rect>
+        <filter x="-62.1%" y="-5.3%" width="187.9%" height="121.4%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="-7" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <rect id="path-3" x="136.636039" y="23.363961" width="33" height="117"></rect>
+        <filter x="-62.1%" y="-7.3%" width="187.9%" height="129.1%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="-7" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-5" points="214 -7 271 50 157 50"></polygon>
+        <filter x="-18.0%" y="-14.9%" width="125.4%" height="159.6%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="-7" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-23.1%" y="-23.1%" width="146.3%" height="146.3%" filterUnits="objectBoundingBox" id="filter-7">
+            <feOffset dx="-7" dy="12" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Rectangle">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#000000" fill-rule="evenodd" xlink:href="#path-1"></use>
+        </g>
+        <g id="Rectangle" transform="translate(153.136039, 81.863961) rotate(45.000000) translate(-153.136039, -81.863961) ">
+            <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+            <use fill="#000000" fill-rule="evenodd" xlink:href="#path-3"></use>
+        </g>
+        <g id="Triangle" transform="translate(214.000000, 21.500000) rotate(45.000000) translate(-214.000000, -21.500000) ">
+            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+            <use fill="#000000" fill-rule="evenodd" xlink:href="#path-5"></use>
+        </g>
+        <g id="Group-2" filter="url(#filter-7)" transform="translate(-29.542370, -39.042370)" fill="#000000">
+            <rect id="Rectangle" transform="translate(100.857864, 100.857864) rotate(315.000000) translate(-100.857864, -100.857864) " x="84.3578644" y="71.3578644" width="33" height="59"></rect>
+            <polygon id="Triangle" transform="translate(61.000000, 60.500000) rotate(315.000000) translate(-61.000000, -60.500000) " points="61 32 118 89 4 89"></polygon>
+        </g>
+    </g>
+</svg>
