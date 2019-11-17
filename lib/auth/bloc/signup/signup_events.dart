@@ -16,3 +16,12 @@ class StartSignUp extends SignUpEvent {
   }
 
 }
+
+class InitCamera extends SignUpEvent {
+
+
+  @override
+  String toString() {
+    return 'InitCamera{}';
+  }
+}

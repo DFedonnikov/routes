@@ -17,11 +17,6 @@ class AuthUnauthenticated extends AuthState {
   String toString() => 'AuthUnauthenticated';
 }
 
-class AuthLoading extends AuthState {
-  @override
-  String toString() => 'AuthLoading';
-}
-
 class AuthNewUser extends AuthState {
   final String email;
   final String password;

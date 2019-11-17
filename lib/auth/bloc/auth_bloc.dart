@@ -12,8 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthState get initialState => AuthUninitialized();
 
   @override
-  Stream<AuthState> mapEventToState(
-      AuthState currentState, AuthEvent event) async* {
+  Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is AppStarted) {
       final bool isAuthenticated = await _authRepo.isAuthenticated();
       if (isAuthenticated) {
@@ -30,8 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _authRepo.signOut();
       yield AuthUnauthenticated();
     }
-    if (event is NewUser) {
-        yield AuthNewUser(event.email, event.password);
-    }
   }
+
+
 }

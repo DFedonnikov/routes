@@ -20,15 +20,19 @@ abstract class FeedBloc extends Bloc<FeedEvent, FeedBlocState> {
   @override
   FeedBlocState get initialState => FeedLoading();
 
-  @override
-  Stream<FeedEvent> transform(Stream<FeedEvent> events) {
-    return (events as Observable<FeedEvent>)
-        .debounce(Duration(microseconds: 500));
-  }
 
   @override
-  Stream<FeedBlocState> mapEventToState(
-      FeedBlocState currentState, FeedEvent event) {
+  Stream<FeedBlocState> transform(Stream<FeedEvent> events,
+      Stream<FeedBlocState> next(FeedEvent event)) {
+    return super.transform(
+        (events as Observable<FeedEvent>).debounceTime(
+          Duration(microseconds: 500)),
+          next,
+        );
+    }
+
+  @override
+  Stream<FeedBlocState> mapEventToState(FeedEvent event) {
     if (event is Fetch && !_hasFetchedAllData(currentState)) {
       if (currentState is FeedLoading) {
         return loadFirstPage();
@@ -39,7 +43,8 @@ abstract class FeedBloc extends Bloc<FeedEvent, FeedBlocState> {
     return Observable.just(currentState);
   }
 
-  Stream<FeedBlocState> loadFirstPage() => _getFeed(1).map((data) {
+  Stream<FeedBlocState> loadFirstPage() =>
+      _getFeed(1).map((data) {
         return data.isEmpty
             ? FeedLoaded(data: data, hasMoreData: false, currentPage: 1)
             : FeedLoaded(data: data, hasMoreData: true, currentPage: 1);

@@ -20,11 +20,11 @@ dependencies:
   kiwi: ^0.1.0
 
   # Rx
-  rxdart: ^0.20.0
+  rxdart: ^0.22.1+1
 
   # BLoC
-  bloc: ^0.9.3
-  flutter_bloc: ^0.7.0
+  bloc: ^0.14.4
+  flutter_bloc: ^0.20.1
 
   # Comparing objects with "=="
   equatable: ^0.2.2
@@ -36,6 +36,8 @@ dependencies:
 
   # UI
   flutter_svg: ^0.13.0+2
+  flutter_screenutil: ^0.6.0
+  camera: ^0.5.6+3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

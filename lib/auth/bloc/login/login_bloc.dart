@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:routes/auth/data/auth_repo.dart';
 import '../auth_bloc.dart';
 import '../auth_events.dart';
@@ -16,8 +15,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginState get initialState => LoginInitial();
 
   @override
-  Stream<LoginState> mapEventToState(
-      LoginState currentState, LoginEvent event) async* {
+  Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is SignIn) {
       yield LoginLoading();
       try {
@@ -43,9 +41,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } catch (error) {
         yield LoginFailure(error.toString());
       }
-    } else if (event is SignUp) {
-      yield LoginLoading();
-      _authBloc.dispatch(NewUser(event.email, event.password));
     }
   }
 }

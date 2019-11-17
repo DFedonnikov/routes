@@ -8,8 +8,11 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:routes/auth/bloc/login/login_bloc.dart';
 import 'package:routes/auth/bloc/login/login_events.dart';
 import 'package:routes/auth/bloc/login/login_states.dart';
+import 'package:routes/auth/ui/signup.dart';
+import 'package:routes/uikit/Input.dart';
 
 import '../../Constants.dart';
+import '../../Routes.dart';
 import '../../colors.dart';
 import '../../common_widgets.dart';
 
@@ -61,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginEvent, LoginState>(
+    return BlocBuilder<LoginBloc, LoginState>(
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
           if (state is LoginFailure) {
@@ -90,11 +93,17 @@ class _LoginFormState extends State<LoginForm> {
             flex: 4,
           ),
           Flexible(
-            child: _buildLoginField(),
+            child: buildInputField(_userNameController,
+                left: 96, top: 48, right: 96, hint: "email"),
             flex: 2,
           ),
           Flexible(
-            child: _buildPasswordField(),
+            child: buildInputField(_passwordController,
+                left: 96,
+                top: 24,
+                right: 96,
+                hint: "password",
+                obscureText: true),
             flex: 2,
           ),
           Flexible(
@@ -139,37 +148,6 @@ class _LoginFormState extends State<LoginForm> {
 
   double dp(double size) {
     return size / MediaQuery.of(context).devicePixelRatio;
-  }
-
-  Widget _buildLoginField() {
-    return Padding(
-        padding: EdgeInsets.only(left: dp(96), top: dp(48), right: dp(96)),
-        child: TextFormField(
-          decoration: InputDecoration(
-              hintText: "email",
-              hintStyle: TextStyle(color: silver),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black))),
-          textAlign: TextAlign.center,
-          cursorColor: Colors.black,
-          controller: _userNameController,
-        ));
-  }
-
-  Widget _buildPasswordField() {
-    return Padding(
-        padding: EdgeInsets.only(left: dp(96), top: dp(24), right: dp(96)),
-        child: TextFormField(
-          decoration: InputDecoration(
-              hintText: "password",
-              hintStyle: TextStyle(color: silver),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black))),
-          textAlign: TextAlign.center,
-          cursorColor: Colors.black,
-          controller: _passwordController,
-          obscureText: true,
-        ));
   }
 
   Widget _buildProgressIndicator() {
@@ -242,7 +220,7 @@ class _LoginFormState extends State<LoginForm> {
     return Padding(
         padding: EdgeInsets.only(top: dp(0), left: dp(96), right: dp(96)),
         child: GestureDetector(
-          onTap: state is! LoginLoading ? _onSignUpPressed : null,
+            onTap: state is! LoginLoading ? _onSignUpPressed : null,
             child: Card(
                 elevation: 8,
                 child: SvgPicture.asset(
@@ -250,7 +228,9 @@ class _LoginFormState extends State<LoginForm> {
                 ))));
   }
 
-  _onSignUpPressed() => _loginBloc.dispatch(SignUp(_userNameController.text, _passwordController.text));
+  _onSignUpPressed() => Navigator.of(context).pushNamed(newUser,
+      arguments:
+          CreateUserArgs(_userNameController.text, _passwordController.text));
 
   Widget _buildGoogleLogin(LoginState state) {
     return Padding(
@@ -259,9 +239,7 @@ class _LoginFormState extends State<LoginForm> {
             onTap: state is! LoginLoading ? _onGoogleLoginPressed : null,
             child: Card(
                 elevation: 8,
-                child: SvgPicture.asset(
-                  'assets/google_login_button.svg'
-                ))));
+                child: SvgPicture.asset('assets/google_login_button.svg'))));
   }
 
   _onGoogleLoginPressed() {
@@ -275,9 +253,7 @@ class _LoginFormState extends State<LoginForm> {
             onTap: state is! LoginLoading ? _onFacebookLoginPressed : null,
             child: Card(
                 elevation: 8,
-                child: SvgPicture.asset(
-                  'assets/facebook_login_button.svg'
-                ))));
+                child: SvgPicture.asset('assets/facebook_login_button.svg'))));
   }
 
   _onFacebookLoginPressed() {
