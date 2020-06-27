@@ -10,6 +10,7 @@ import 'package:routes/auth/bloc/login/login_events.dart';
 import 'package:routes/auth/bloc/login/login_states.dart';
 import 'package:routes/auth/ui/signup.dart';
 import 'package:routes/uikit/Input.dart';
+import 'package:routes/extensions/Int.dart';
 
 import '../../Constants.dart';
 import '../../Routes.dart';
@@ -94,14 +95,14 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Flexible(
             child: buildInputField(_userNameController,
-                left: 96, top: 48, right: 96, hint: "email"),
+                left: 24.dp(), top: 18.dp(), right: 24.dp(), hint: "email"),
             flex: 2,
           ),
           Flexible(
             child: buildInputField(_passwordController,
-                left: 96,
-                top: 24,
-                right: 96,
+                left: 24.dp(),
+                top: 8.dp(),
+                right: 24.dp(),
                 hint: "password",
                 obscureText: true),
             flex: 2,

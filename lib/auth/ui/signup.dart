@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:routes/auth/bloc/signup/signup_bloc.dart';
 import 'package:routes/auth/bloc/signup/signup_events.dart';
 import 'package:routes/auth/bloc/signup/signup_states.dart';
 import 'package:routes/uikit/Input.dart';
+import 'package:routes/extensions/Int.dart';
 
 import '../../Constants.dart';
 import '../../colors.dart';
@@ -28,7 +30,8 @@ class CreateUserWidget extends StatefulWidget {
   }
 }
 
-class CreateUserState extends State<CreateUserWidget> {
+class CreateUserState extends State<CreateUserWidget>
+    with TickerProviderStateMixin {
   final SignUpBloc _signUpBloc;
   final _displayNameController = TextEditingController();
   final _userNameController = TextEditingController();
@@ -39,28 +42,29 @@ class CreateUserState extends State<CreateUserWidget> {
   CreateUserState(this._signUpBloc);
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+    _initCamera();
+  }
+
+  void _initCamera() async {
     cameras = await availableCameras();
-    _cameraController = CameraController(cameras[0], ResolutionPreset.medium);
-    _cameraController.initialize().then((_) {
-      if (!mounted) {
-        return;
-      } else {
-        _signUpBloc.dispatch(InitCamera());
-      }
-    });
+    _cameraController = CameraController(cameras[0], ResolutionPreset.max);
   }
 
   @override
   void didChangeDependencies() {
-    final CreateUserArgs args = ModalRoute.of(context).settings.arguments;
+    final CreateUserArgs args = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
     _signUpBloc.dispatch(StartSignUp(args.email, args.password));
   }
 
   @override
   void dispose() {
     _signUpBloc.dispose();
+    _cameraController.dispose();
     super.dispose();
   }
 
@@ -81,49 +85,109 @@ class CreateUserState extends State<CreateUserWidget> {
 
   Widget _topPart(SignUpState state) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: getChildren(state));
+  }
+
+  List<Widget> getChildren(SignUpState state) {
+    if (_isShowingCamera(state)) {
+      return [Flexible(child: _buildAvatar(state), flex: 4), Container()];
+    } else {
+      return [
         Flexible(
           child: _buildAvatar(state),
           flex: 4,
         ),
         Flexible(
           child: buildInputField(_displayNameController,
-              left: 96, top: 270, right: 96, hint: "display name"),
-          flex: 2,
+              left: 24.dp(),
+              top: 36.dp(),
+              right: 24.dp(),
+              hint: "display name"),
+          flex: (_isShowingCamera(state)) ? 0 : 2,
         ),
         Flexible(
           child: buildInputField(_userNameController,
-              left: 96, top: 24, right: 96, hint: "email"),
-          flex: 2,
+              left: 24.dp(), top: 8.dp(), right: 24.dp(), hint: "email"),
+          flex: (_isShowingCamera(state)) ? 0 : 2,
         ),
         Flexible(
           child: buildInputField(_passwordController,
-              left: 96,
-              top: 24,
-              right: 96,
+              left: 24.dp(),
+              top: 8.dp(),
+              right: 24.dp(),
               hint: "password",
               obscureText: true),
-          flex: 2,
+          flex: (_isShowingCamera(state)) ? 0 : 2,
         )
-      ],
-    );
+      ];
+    }
+  }
+
+  bool _isShowingCamera(SignUpState state) {
+    return state is CameraInitialized && _cameraController.value.isInitialized;
   }
 
   Widget _buildAvatar(SignUpState state) {
-    if (state is CameraInitialized && _cameraController.value.isInitialized) {
-      return Padding(
-          padding: EdgeInsets.only(top: ScreenUtil.getInstance().setWidth(48)),
-          child: AspectRatio(
-            aspectRatio: _cameraController.value.aspectRatio,
-            child: CameraPreview(_cameraController),
-          ));
+    double width;
+    double height;
+    Widget child;
+    if ((_isShowingCamera(state))) {
+      width = ScreenUtil.screenWidth;
+      height = ScreenUtil.screenHeight;
+      child = _buildCamera();
     } else {
-      return Padding(
-          padding: EdgeInsets.only(top: ScreenUtil.getInstance().setWidth(48)),
-          child: CircleAvatar(
-            radius: ScreenUtil.getInstance().setWidth(240),
-          ));
+      width = 88.dp();
+      height = 88.dp();
+      child = _buildAvatarPreview();
     }
+
+    return AnimatedContainer(
+        margin: EdgeInsets.only(top: (_isShowingCamera(state)) ? 0 : 12.dp()),
+        width: width,
+        height: height,
+        foregroundDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24.dp())
+        ),
+        curve: Curves.fastOutSlowIn,
+        duration: const Duration(milliseconds: 2000),
+        child: child);
+  }
+
+  Widget _buildCamera() {
+    return AspectRatio(
+        aspectRatio: _cameraController.value.aspectRatio,
+        child: CameraPreview(_cameraController));
+  }
+
+  Widget _buildAvatarPreview() {
+    return GestureDetector(
+        child: Container(color: Color.fromARGB(255, 255, 0, 0),),
+        onTap: () => openCamera());
+  }
+
+  void openCamera() {
+    _cameraController.initialize().then((_) {
+      if (!mounted) {
+        return;
+      } else {
+        _signUpBloc.dispatch(InitCamera());
+      }
+    });
+  }
+}
+
+class OverflowClipper extends CustomClipper<Rect> {
+  @override
+  Rect getClip(Size size) {
+    final screenWidth = ScreenUtil.screenWidth;
+    final screenHeight = ScreenUtil.screenHeight;
+
+    return new Rect.fromLTRB(0, 0, size.width * 2, size.height);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Rect> oldClipper) {
+    return true;
   }
 }
